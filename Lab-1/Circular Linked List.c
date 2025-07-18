@@ -36,7 +36,7 @@ int main() {
         scanf("%d", &choice);
     }
 
-    // Displaying the cricular linked list
+    // Displaying the circular linked list
     printf("\nOriginal Circular Linked List: ");
     temp = head;
     while (temp->next != head) {
@@ -44,9 +44,71 @@ int main() {
         temp = temp->next;
     }
     printf("%d ->",temp->data);
-    printf("%d ->",temp->next->data);
-    printf("NULL\n");
+    printf("%d\n",temp->next->data);
 
+
+    //Insertion at beginning
+    int c;
+    printf("\nDo you want to insert at beginning (0,1)? : ");
+    scanf("%d",&c);
+    if(c==1){
+        newnode=(struct node*)malloc(sizeof(struct node));
+        if (newnode == NULL) {
+            printf("Memory allocation failed\n");
+            return 1;
+        }
+        printf("Enter the data value : ");
+        scanf("%d",&newnode->data);
+        newnode->next=0;
+
+        temp=head;
+
+
+        while(temp->next!=head){
+            temp=temp->next;
+        }
+        temp->next=newnode;
+        newnode->next=head;
+        head=newnode;
+        printf("\nCircular Linked List after inserting at beginning : ");
+        temp = head;
+        while (temp->next != head) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("%d ->",temp->data);
+        printf("%d\n",temp->next->data);
+    }
+
+    //Insertion at ending
+    printf("\nDo you want to insert at ending (0,1)? : ");
+    scanf("%d",&c);
+    if(c==1){
+        newnode=(struct node*)malloc(sizeof(struct node));
+        if (newnode == NULL) {
+            printf("Memory allocation failed\n");
+            return 1;
+        }
+        printf("Enter the data value : ");
+        scanf("%d",&newnode->data);
+        newnode->next=head;
+
+        temp=head;
+        while(temp->next!=head){
+             temp=temp->next;
+        }
+        temp->next=newnode;
+        newnode->next=head;
+
+
+        printf("\nCircular Linked List after inserting at ending : ");
+        temp = head;
+        while (temp->next != head) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("%d ->",temp->data);
+        printf("%d\n",temp->next->data);
+    }
     return 0;
 }
-
