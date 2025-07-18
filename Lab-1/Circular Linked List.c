@@ -110,5 +110,29 @@ int main() {
         printf("%d ->",temp->data);
         printf("%d\n",temp->next->data);
     }
+
+    printf("\nDo you want to deleting at beginning (0,1)? : ");
+    scanf("%d",&c);
+    if(c==1){
+        struct node*p,*a;
+        a=head;
+        temp=head;
+        p=temp->next;
+         while(temp->next!=head){
+             temp=temp->next;
+        }
+        temp->next=p;
+        head=p;
+        temp = a;
+        free(temp);
+        printf("\nCircular Linked List after deleting at beginning : ");
+        temp = head;
+        while (temp->next != head) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("%d ->",temp->data);
+        printf("%d\n",temp->next->data);
+    }
     return 0;
 }
