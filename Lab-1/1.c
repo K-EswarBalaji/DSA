@@ -36,7 +36,7 @@ int main(){
             }
         }
 
-        // Delection
+        // Deletion
         printf("Enter the index to delete the element in Array : ");
         scanf("%d",&index);
         if(index<0 || index>n+1){ //We cannot insert element by giving gap in an array
