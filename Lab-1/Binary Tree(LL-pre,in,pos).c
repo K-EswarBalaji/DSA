@@ -27,7 +27,7 @@ struct node*create(){
         newnode->data=d;
         printf("\nEnter the left value of %d",d);
         newnode->left=create();
-        printf("\nEnter te right value of %d",d);
+        printf("\nEnter the right value of %d",d);
         newnode->right=create();
         return newnode;
     }
@@ -77,3 +77,4 @@ int main(){
     return 0;
 
 }
+
