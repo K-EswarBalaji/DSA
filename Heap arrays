@@ -1,0 +1,145 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_SIZE 100 // Maximum number of nodes the tree can hold
+
+typedef struct {
+    int data[MAX_SIZE + 1]; // Index 0 will be unused
+    int size; // Tracks the current number of nodes in the tree (and the last used index)
+} ArrayBinaryTree;
+
+// Function to initialize the tree
+void initTree(ArrayBinaryTree *tree) {
+    tree->size = 0;
+    // Initialize all elements to a default value (e.g., -1)
+    for (int i = 0; i <= MAX_SIZE; i++) {
+        tree->data[i] = -1; // Use -1 to represent an empty node
+    }
+}
+
+// Function to check if the tree is empty
+bool isEmpty(ArrayBinaryTree *tree) {
+    return tree->size == 0;
+}
+
+// Function to insert a new node in level-order (the next available position)
+bool insert(ArrayBinaryTree *tree, int value) {
+    if (tree->size >= MAX_SIZE) {
+        printf("Tree is full. Cannot insert %d.\n", value);
+        return false;
+    }
+    // Insert at the next available index
+    tree->size++;
+    tree->data[tree->size] = value;
+    return true;
+}
+
+// Function to get the left child of a node at index 'i'
+int getLeftChild(ArrayBinaryTree *tree, int i) {
+    int leftIndex = 2 * i;
+    if (leftIndex > tree->size || tree->data[leftIndex] == -1) {
+        return -1; // Indicates no left child
+    }
+    return tree->data[leftIndex];
+}
+
+// Function to get the right child of a node at index 'i'
+int getRightChild(ArrayBinaryTree *tree, int i) {
+    int rightIndex = (2 * i) + 1;
+    if (rightIndex > tree->size || tree->data[rightIndex] == -1) {
+        return -1; // Indicates no right child
+    }
+    return tree->data[rightIndex];
+}
+
+// Function to get the parent of a node at index 'i'
+int getParent(ArrayBinaryTree *tree, int i) {
+    if (i == 1) {
+        return -1; // Root has no parent
+    }
+    int parentIndex = i / 2; // Integer division
+    return tree->data[parentIndex];
+}
+
+// In-order Traversal (Left, Root, Right)
+void inOrderTraversal(ArrayBinaryTree *tree, int currentIndex) {
+    if (currentIndex > tree->size || tree->data[currentIndex] == -1) {
+        return;
+    }
+    inOrderTraversal(tree, 2 * currentIndex);      // Recurse left
+    printf("%d ", tree->data[currentIndex]);       // Visit root
+    inOrderTraversal(tree, (2 * currentIndex) + 1); // Recurse right
+}
+
+// Pre-order Traversal (Root, Left, Right)
+void preOrderTraversal(ArrayBinaryTree *tree, int currentIndex) {
+    if (currentIndex > tree->size || tree->data[currentIndex] == -1) {
+        return;
+    }
+    printf("%d ", tree->data[currentIndex]);        // Visit root
+    preOrderTraversal(tree, 2 * currentIndex);      // Recurse left
+    preOrderTraversal(tree, (2 * currentIndex) + 1); // Recurse right
+}
+
+// Post-order Traversal (Left, Right, Root)
+void postOrderTraversal(ArrayBinaryTree *tree, int currentIndex) {
+    if (currentIndex > tree->size || tree->data[currentIndex] == -1) {
+        return;
+    }
+    postOrderTraversal(tree, 2 * currentIndex);      // Recurse left
+    postOrderTraversal(tree, (2 * currentIndex) + 1); // Recurse right
+    printf("%d ", tree->data[currentIndex]);         // Visit root
+}
+
+// Level-order Traversal (print from index 1 to size)
+void levelOrderTraversal(ArrayBinaryTree *tree) {
+    printf("Level Order: ");
+    for (int i = 1; i <= tree->size; i++) {
+        if (tree->data[i] != -1) {
+            printf("%d ", tree->data[i]);
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    ArrayBinaryTree tree;
+    initTree(&tree);
+
+    // Build the example tree: [-, 1, 2, 3, 4, 5, 6, 7]
+    // data[0] is unused, root is at data[1]
+    insert(&tree, 1);
+    insert(&tree, 2);
+    insert(&tree, 3);
+    insert(&tree, 4);
+    insert(&tree, 5);
+    insert(&tree, 6);
+    insert(&tree, 7);
+
+    printf("Tree size: %d\n", tree.size);
+
+    // Test parent-child relationships
+    printf("Root node is %d (index 1)\n", tree.data[1]);
+    printf("Left child of node %d (index 1) is %d\n", tree.data[1], getLeftChild(&tree, 1));
+    printf("Right child of node %d (index 1) is %d\n", tree.data[1], getRightChild(&tree, 1));
+    printf("Parent of node %d (index 2) is %d\n", tree.data[2], getParent(&tree, 2));
+    printf("Parent of node %d (index 3) is %d\n", tree.data[3], getParent(&tree, 3));
+
+    // Perform traversals
+    printf("In-order Traversal: ");
+    inOrderTraversal(&tree, 1); // Start from the root (index 1)
+    printf("\n");
+
+    printf("Pre-order Traversal: ");
+    preOrderTraversal(&tree, 1);
+    printf("\n");
+
+    printf("Post-order Traversal: ");
+    postOrderTraversal(&tree, 1);
+    printf("\n");
+
+    levelOrderTraversal(&tree);
+
+    return 0;
+}
